@@ -51,6 +51,29 @@
                 {% endfor %}
             </div>
             <!-- Course detail template changes go here -->
+            <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                {% csrf_token %}
+                {% for question in course.question_set.all %}
+                <div class="card mt-1">
+                    <div class="card-header">
+                        {{ question.question_text }}
+                    </div>
+                    <div class="card-body">
+                        {% for choice in question.choice_set.all %}
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="choice_{{ choice.id }}" value="{{ choice.id }}">
+                                {{ choice.choice_text }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="mt-2 mb-2">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Submit">
+                </div>
+            </form>
     </div>
 </body>
 </html>
